@@ -12,34 +12,45 @@ import numpy as np # Підключення модуля numpy для робот
 fig, ax = plt.subplots(figsize = (6, 3), subplot_kw = dict(aspect = "equal")) # Створення полотна для діаграми
 # Записані дані з предметної області лабораторної роботи №9
 students = [
-        "Гриценко 150 см",
-        "Павленко 178 см",
-        "Лунцевич 163 см",
-        "Бабакович 152 см",
-        "Бринькевич 180 см",
-        "Мельник 154 см",
-        "Гринькевич 147 см",
-        "Ждан 190 см",
-        "Фамільянович 181 см",
-        "Отрукиотбиванич 134 см"
+        "Гриценко 150 см Ж",
+        "Павленко 178 см Ч",
+        "Лунцевич 163 см Ч",
+        "Бабакович 152 см Ж",
+        "Бринькевич 180 см Ч",
+        "Мельник 154 см Ж",
+        "Гринькевич 147 см Ч",
+        "Ждан 190 см Ж",
+        "Фамільянович 181 см Ч",
+        "Отрукиотбиванич 134 см Ч"
     ]
-names = [] # Створення списку names
-# Додання імен у список
-for x in students:
-    names.append(x.split()[0])
-# Додання значень зросту в список
-heights = []  # Створення списку heights
-# Додання значення зросту в список
-for x in students:
-    heights.append(float(x.split()[1]))
+
+def sum_height(students):
+    sum_male = 0
+    sum_female = 0
+    for student in students:
+        if student.split()[-1] == 'Ч':
+            sum_male += float(student.split()[1])
+        elif student.split()[-1] == 'Ж':
+            sum_female += float(student.split()[1])
+    return [sum_male, sum_female]
+"""
+Функція sum_height(students), необхідна для обчислення суми зросту всіх дівчаток та всіх хлопчиків.
+Повертає результат у вигляді списку з двох значень.
+"""
 
 # Функція для підписів у відсотках
 def func(pct, allvals):
     absolute = int(np.round(pct / 100. * np.sum(allvals)))
     return f"{pct:.1f}%\n({absolute} см)"
+"""
+Функція func(pct, allvals), необхідна для створення відсоткової співвідношення.
+Повертає форматований рядок з відсотковим значенням
+"""
+
+names=['Хлопчики','Дівчатка']
 
 # Побудова кругової діаграми
-wedges, texts, autotexts = ax.pie(heights, autopct = lambda pct: func(pct, heights), textprops = dict(color='w'))
+wedges, texts, autotexts = ax.pie(sum_height(students), autopct = lambda pct: func(pct, sum_height(students)), textprops = dict(color='w'))
 
 # Додавання легенди
 ax.legend(wedges, names, title = 'Учні:', loc = 'center left', bbox_to_anchor = (1, 0, 0.5, 1))
