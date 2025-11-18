@@ -102,8 +102,11 @@ def graph(df_arg):
 
     # Групування по місяцях
     monthly_sum = df_arg.groupby('Month')[lane_choice].sum()
-
-    # Побудова графіка
+    months_order = [
+        'Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень',
+        'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'
+    ]
+    monthly_sum = monthly_sum.reindex(months_order)
     plt.figure(figsize=(10, 6))
     plt.plot(monthly_sum.index, monthly_sum.values, marker='o')
     plt.title(f"Завантаженість велодоріжки по місяцях: {lane_choice}")
