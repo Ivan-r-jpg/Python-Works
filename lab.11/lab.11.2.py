@@ -10,6 +10,9 @@ import pandas as pd # Імпортування бібліотеки pandas дл�
 import matplotlib.pyplot as plt # Імпортування модуля pyplot бібліотеки matplotlib для роботи з графіками
 
 def test(df_arg):
+    pd.set_option("display.max_columns", None) # Відображення всіх стовпців датафрейму при виведенні
+    pd.set_option("display.width", None) # Розтягнення датафрейму по всій її ширині для гарного відображення даних
+    pd.set_option('display.float_format', '{:.0f}'.format) # Для відображення цілих чисел у датафреймі
     print("\nТестування датафрайму (Чи коректно зчитався файл):\n")
     print(df_arg.head())
     print(df_arg.info())
@@ -121,7 +124,11 @@ def graph(df_arg):
 """
 
 def main():
-    df = pd.read_csv('comptagevelo2010.csv')
+    try:
+        df = pd.read_csv('comptagevelo2010.csv')
+    except FileNotFoundError:
+        print(">-[ПОМИЛКА] - Файл не знайдено!")
+    print("\nФайл comptagevelo2010.csv успішно зчитано!\n")
     try:
         df['Date'] = pd.to_datetime(df['Date'], dayfirst=True)
         print("Стовпець 'Date' успішно перетворено у datetime!")
