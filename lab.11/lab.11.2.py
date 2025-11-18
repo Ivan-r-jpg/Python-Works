@@ -40,7 +40,7 @@ def print_bike_lanes(df_arg):
 def total_sum(df_arg):
     bike_lanes = create_lanes(df_arg)
     total = df_arg[bike_lanes].sum().sum()
-    print(f"Загальна кількість велосипедистів за рік: {total}")
+    print(f"Загальна кількість велосипедистів за рік: {int(total)}")
 """
 Функція total_sum(df_arg) розраховує загальну суму кількості велосипедистів на усіх велодоріжках за рік.
 Аргументом функції виступає датафрейм.
@@ -48,7 +48,7 @@ def total_sum(df_arg):
 
 def lane_sum(df_arg):
     bike_lanes = create_lanes(df_arg)
-    lane_totals = df_arg[bike_lanes].sum().sort_values(ascending=False)
+    lane_totals = df_arg[bike_lanes].sum().sort_values(ascending=False).astype(int)
     print(lane_totals)
 """
 Функція lane_sum(df_arg) обчислює та виводить суму велосипедистів для кожної велодоріжки окремо. 
@@ -73,7 +73,7 @@ def popularity(df_arg):
     print("\n--- Ваш вибір ---")
     print(", ".join(chosen_lanes))
     print("-" * 40)
-    df_arg['Month'] = df_arg['Date'].dt.month
+    df_arg['Month'] = df_arg['Date'].dt.month_name(locale='uk_UA')
     monthly_data = df_arg.groupby('Month')[chosen_lanes].sum()
     print("\nМісячна статистика:")
     print(monthly_data)
@@ -98,7 +98,7 @@ def graph(df_arg):
         print(">-[УВАГА] - Некоректно введені дані!\n(Спробуйте ще раз)")
 
     # Створення колонки з місяцями
-    df_arg['Month'] = df_arg['Date'].dt.month
+    df_arg['Month'] = df_arg['Date'].dt.month_name(locale='uk_UA')
 
     # Групування по місяцях
     monthly_sum = df_arg.groupby('Month')[lane_choice].sum()
